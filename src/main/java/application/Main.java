@@ -8,6 +8,7 @@ import entities.Consulta;
 import entities.Exame;
 import entities.Paciente;
 import entities.Usuario;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -227,8 +228,130 @@ public class Main extends Application {
     }
 
     private VBox criarPainelExames() {
-        return new VBox();
 
+        txtIdExame = new TextField();
+        txtIdExame.setPromptText("ID do exame");
+        txtIdExame.setEditable(false);
+        txtIdExame.setStyle("-fx-background-color: #e8e8e8;");
+        txtIdConsultaExame = new TextField();
+        txtIdConsultaExame.setPromptText("ID da Consulta ");
+        txtTipoExame = new TextField();
+        txtTipoExame.setPromptText("Tipo de Exame ");
+        txtDataExame = new TextField();
+        txtDataExame.setPromptText("Data do Exame ");
+        txtResultado = new TextField();
+        txtResultado.setPromptText("Resultado do Exame");
+        txtStatusExame = new TextField();
+        txtStatusExame.setPromptText("Status do Exame");
+        txtValorExame = new TextField();
+        txtValorExame.setPromptText("Valor do Exame");
+
+        tableExame = new TableView<>();
+
+        TableColumn<Exame, String> colId= new TableColumn<>("ID");
+        colId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIdExame())));
+        colId.setPrefWidth(70);
+
+        TableColumn<Exame, String> colConsulta = new TableColumn<>("Consulta");
+        colConsulta.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIdConsulta())));
+        colConsulta.setPrefWidth(100);
+
+        TableColumn<Exame, String> colTipo = new TableColumn<>("Tipo");
+        colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTipoExame()));
+        colTipo.setPrefWidth(130);
+
+        TableColumn<Exame, String> colData = new TableColumn<>("Data");
+        colData.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDataExame()));
+        colData.setPrefWidth(130);
+
+        TableColumn<Exame, String> colStatus = new TableColumn<>("Status");
+        colStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
+        colStatus.setPrefWidth(100);
+
+        tableExame.getColumns().addAll(colId, colConsulta,colTipo,colData,colStatus);
+        tableExame.setPrefHeight(250);
+
+        tableExame.setOnMouseClicked(e ->{ Exame exame = tableExame.getSelectionModel().getSelectedItem();
+        if(exame != null ){
+            txtIdExame.setText(String.valueOf(exame.getIdExame()));
+            txtIdConsultaExame.setText(String.valueOf(exame.getIdConsulta()));
+            txtTipoExame.setText(exame.getTipoExame());
+            txtDataExame.setText(exame.getDataExame());
+            txtResultado.setText(exame.getResultado());
+            txtStatusExame.setText(exame.getStatus());
+            txtValorExame.setText(String.valueOf(exame.getValor()));
+        }
+        });
+
+        Button btnAdd = new Button("Salvar");
+        Button btnEdit = new Button("Editar");
+        Button btnDel = new Button("Deletar");
+
+        btnAdd.setOnAction(e -> {
+            try {
+                Exame exame = new Exame();
+                exame.setIdConsulta(Integer.parseInt(txtIdConsultaExame.getText()));
+                exame.setTipoExame(txtTipoExame.getText());
+                exame.setDataExame(txtDataExame.getText());
+                exame.setResultado(txtResultado.getText());
+                exame.setStatus(txtStatusExame.getText());
+                exame.setValor(Double.parseDouble(txtValorExame.getText()));
+                exameDao.insert(exame);
+
+                lblStatusGlobal.setText("Status: Exame adicionado");
+                txtIdConsultaExame.clear();
+                txtTipoExame.clear();
+                txtDataExame.clear();
+                txtResultado.clear();
+                txtValorExame.clear();
+            }catch (Exception ex){
+                lblStatusGlobal.setText("Erro" + ex.getMessage());
+            }
+        });
+
+        btnEdit.setOnAction(e -> {
+            try{
+                Exame exame = new Exame();
+                exame.setIdExame(Integer.parseInt(txtIdExame.getText()));
+                exame.setIdConsulta(Integer.parseInt(txtIdConsultaExame.getText()));
+                exame.setTipoExame(txtTipoExame.getText());
+                exame.setDataExame(txtDataExame.getText());
+                exame.setResultado(txtResultado.getText());
+                exame.setStatus(txtStatusExame.getText());
+                exame.setValor(Double.parseDouble(txtValorExame.getText()));
+                exameDao.update(exame);
+                lblStatusGlobal.setText("Status: Exame atualizado");
+            }catch (Exception ex){
+                lblStatusGlobal.setText("Erro" + ex.getMessage());
+            }
+        });
+
+        btnDel.setOnAction(e -> {
+            try {
+                exameDao.deleteById(Integer.parseInt(txtIdExame.getText()));
+                lblStatusGlobal.setText("Status: Exame removido");
+                txtIdExame.clear();
+                txtIdConsultaExame.clear();
+                txtTipoExame.clear();
+                txtResultado.clear();
+                txtStatusExame.clear();
+                txtValorExame.clear();
+            }catch (Exception ex){
+                lblStatusGlobal.setText("Erro" + ex.getMessage());
+            }
+        });
+
+        HBox botoes = new HBox(10,btnAdd,btnEdit,btnDel);
+        return new VBox(8,
+                new Label("ID Exame "),txtIdExame,
+                new Label("ID Consulta "), txtIdConsultaExame,
+                new Label("Tipo do Exame"), txtTipoExame,
+                new Label("Data do Exame "), txtDataExame,
+                new Label("Resultado "), txtResultado,
+                new Label("Status "), txtStatusExame,
+                new Label("Valor "), txtValorExame,
+                botoes,
+                tableExame);
     }
 
     private void atualizarListas(){
