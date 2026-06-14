@@ -5,6 +5,7 @@ import dao.ExameDao;
 import dao.PacienteDao;
 import dao.UsuarioDao;
 import entities.Consulta;
+import entities.Exame;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
@@ -31,7 +32,9 @@ public class Main extends Application {
 
     //ATRIBUTOS USUARIO EM BAIXO COLOCA O TABLEVIEW
 
-    //ATRIBUTOS EXAME EM BAIXO COLOCA O TABLEVIEW
+    private TextField txtIdExame,txtIdConsultaExame,txtTipoExame,txtDataExame;
+    private TextField txtResultado,txtStatusExame,txtValorExame;
+    private TableView<Exame> tableExame;
 
 
 
