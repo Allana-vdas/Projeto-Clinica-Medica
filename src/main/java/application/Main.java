@@ -731,7 +731,9 @@ public class Main extends Application {
         tableUsuario.getItems().addAll(usuarios);// entra de novo
 
 
-        //EXAME
+        List<Exame> exames = exameDao.findAll(); // busca oa exames no banco
+        tableExame.getItems().clear(); // vai limpa a tabela
+        tableExame.getItems().addAll(exames); // carregar de novo
     }
 
     //metodo pra limpar os campos da tela dps de salvar,editar ou deletar uma consulta
@@ -775,6 +777,12 @@ public class Main extends Application {
     }
 
     private void limparCamposExame(){
+        txtIdExame.clear();
+        txtIdConsultaExame.clear();
+        txtTipoExame.clear();
+        txtDataExame.clear();
+        txtResultado.clear();
+        txtValorExame.clear();
 
     }
 
