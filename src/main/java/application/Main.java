@@ -438,6 +438,8 @@ public class Main extends Application {
                  usuario.setNivelAcesso((txtNivelAcesso.getText()));
 
                  usuarioDao.insert(usuario);
+                 atualizarListas();
+                 limparCamposUsuario();
                  lblStatusGlobal.setText("Status: Usuario cadastrado!!");
 
              } catch (Exception ex) {
@@ -463,6 +465,10 @@ public class Main extends Application {
                 usuario.setNivelAcesso((txtNivelAcesso.getText()));
 
                  usuarioDao.update(usuario);
+
+                 atualizarListas();
+
+                 limparCamposConsulta();
                 lblStatusGlobal.setText("Status: Usuario Atualizado!!");
 
             } catch (Exception ex) {
@@ -473,6 +479,10 @@ public class Main extends Application {
         btnDel.setOnAction(e ->{
             try{
                 usuarioDao.deleteById(Integer.parseInt(txtIdUsuario.getText()));
+
+                atualizarListas();
+
+                limparCamposUsuario();
 
                 lblStatusGlobal.setText("Status : usuário removido!");
             } catch (Exception ex) {
@@ -632,7 +642,11 @@ public class Main extends Application {
 
         //PACIENTE
 
-        //USUARIO
+        if (tableUsuario != null) {
+            List<Usuario> usuarios = usuarioDao.findAll(); //todas as consultas
+            tableUsuario.getItems().clear();//limpa
+            tableUsuario.getItems().addAll(usuarios);// entra de novo
+        }
 
         //EXAME
     }
@@ -655,6 +669,14 @@ public class Main extends Application {
     }
 
     private void limparCamposUsuario(){
+        txtIdUsuario.clear();
+        txtNome.clear();
+        txtTelefone.clear();
+        txtCpf.clear();
+        txtEmail.clear();
+        txtCargo.clear();
+        txtSetor.clear();
+        txtNivelAcesso.clear();
 
     }
 
