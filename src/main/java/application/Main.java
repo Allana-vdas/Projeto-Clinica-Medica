@@ -71,7 +71,7 @@ public class Main extends Application {
         root.setPadding(new Insets(10));
 
         //informando a altura e largura da janela
-        primaryStage.setScene(new Scene(root, 600, 650));
+        primaryStage.setScene(new Scene(root, 700, 750));
         primaryStage.show(); //pra exibir a janela
 
         atualizarListas();
@@ -260,13 +260,17 @@ public class Main extends Application {
 
         tablePaciente = new TableView<>();
 
-        TableColumn<Paciente, String> colId = new TableColumn<>("ID"); colId.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getIdPaciente())));
+        TableColumn<Paciente, String> colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getIdPaciente())));
         colId.setPrefWidth(50);
-        TableColumn<Paciente, String> colNome = new TableColumn<>("Nome");colNome.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNome()));
+        TableColumn<Paciente, String> colNome = new TableColumn<>("Nome");
+        colNome.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNome()));
         colNome.setPrefWidth(180);
-        TableColumn<Paciente, String> colCpf= new TableColumn<>("CPF");colCpf.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getCpf()));
+        TableColumn<Paciente, String> colCpf = new TableColumn<>("CPF");
+        colCpf.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getCpf()));
         colCpf.setPrefWidth(150);
-        TableColumn<Paciente, String> colTelefone = new TableColumn<>("Telefone");colTelefone.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTelefone()));
+        TableColumn<Paciente, String> colTelefone = new TableColumn<>("Telefone");
+        colTelefone.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTelefone()));
         colTelefone.setPrefWidth(120);
 
 
@@ -298,8 +302,8 @@ public class Main extends Application {
         Button btnEdit = new Button("Editar");
         Button btnDelete = new Button("Excluir");
 
-        btnAdd.setOnAction(e ->{
-            try{
+        btnAdd.setOnAction(e -> {
+            try {
                 Paciente paciente = new Paciente();
 
                 paciente.setNome(txtNomePaciente.getText());
@@ -340,7 +344,7 @@ public class Main extends Application {
         });
 
         btnEdit.setOnAction(e -> {
-            try{
+            try {
 
                 Paciente paciente = new Paciente();
 
@@ -393,10 +397,10 @@ public class Main extends Application {
                 txtIdPlanoPaciente.clear();
 
 
-            } catch ( Exception ex) {
+            } catch (Exception ex) {
                 lblStatusGlobal.setText("Erro: " + ex.getMessage());
             }
-                });
+        });
 
         HBox botoes = new HBox(10, btnAdd, btnEdit, btnDelete);
 

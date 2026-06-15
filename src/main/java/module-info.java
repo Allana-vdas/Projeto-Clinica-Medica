@@ -5,7 +5,7 @@ module org.example.projeto_clinica_medica {
     requires mysql.connector.j;
     requires java.desktop;
 
-
+exports application;
     opens org.example.projeto_clinica_medica to javafx.fxml;
 
 }
