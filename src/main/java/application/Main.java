@@ -156,7 +156,7 @@ public class Main extends Application {
                consulta.setStatus_da_consulta(txtStatus.getText());
                consulta.setObservaçoes_sobre_consulta(txtObservacoes.getText());
                consultaDao.insert(consulta); //dps do objeto preenchido chama o dao
-               lblStatusGlobal.setText("Statu: Consulta adicionada!"); //se der certo envia esse msg
+               lblStatusGlobal.setText("Status: Consulta adicionada!"); //se der certo envia esse msg
                txtIdPaciente.clear(); //limpando os campos
                txtCRM.clear();
                txtIdSetor.clear();
@@ -230,60 +230,35 @@ public class Main extends Application {
 
         txtNomePaciente = new TextField();
         txtNomePaciente.setPromptText("Nome");
-
         txtCpfPaciente = new TextField();
         txtCpfPaciente.setPromptText("CPF");
-
         txtRgPaciente = new TextField();
         txtRgPaciente.setPromptText("RG");
-
         txtNomeTelefonePaciente = new TextField();
         txtNomeTelefonePaciente.setPromptText("Telefone");
-
         txtNomeEnderecoPaciente = new TextField();
         txtNomeEnderecoPaciente.setPromptText("Endereco");
-
         txtEmailPaciente = new TextField();
         txtEmailPaciente.setPromptText("Email");
-
         txtDataNascimentoPaciente = new TextField();
         txtDataNascimentoPaciente.setPromptText("Data de Nascimento");
-
         txtContatoEmergenciaPaciente = new TextField();
         txtContatoEmergenciaPaciente.setPromptText("Contato de Emergencia");
-
         txtIdEnderecoPaciente = new TextField();
         txtIdEnderecoPaciente.setPromptText("ID Endereco");
-
         txtIdPlanoPaciente = new TextField();
         txtIdPlanoPaciente.setPromptText("ID Plano");
 
 
         tablePaciente = new TableView<>();
 
-        TableColumn<Paciente, String> colId = new TableColumn<>("ID");
-        colId.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        String.valueOf(cellData.getValue().getIdPaciente())));
+        TableColumn<Paciente, String> colId = new TableColumn<>("ID"); colId.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getIdPaciente())));
         colId.setPrefWidth(50);
-
-        TableColumn<Paciente, String> colNome = new TableColumn<>("Nome");
-        colNome.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getNome()));
+        TableColumn<Paciente, String> colNome = new TableColumn<>("Nome");colNome.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNome()));
         colNome.setPrefWidth(180);
-
-
-        TableColumn<Paciente, String> colCpf= new TableColumn<>("CPF");
-        colCpf.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getCpf()));
+        TableColumn<Paciente, String> colCpf= new TableColumn<>("CPF");colCpf.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getCpf()));
         colCpf.setPrefWidth(150);
-
-        TableColumn<Paciente, String> colTelefone = new TableColumn<>("Telefone");
-        colTelefone.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getTelefone()));
+        TableColumn<Paciente, String> colTelefone = new TableColumn<>("Telefone");colTelefone.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTelefone()));
         colTelefone.setPrefWidth(120);
 
 
@@ -315,6 +290,100 @@ public class Main extends Application {
         Button btnEdit = new Button("Editar");
         Button btnDelete = new Button("Excluir");
 
+        btnAdd.setOnAction(e ->{
+            try{
+                Paciente paciente = new Paciente();
+
+                paciente.setNome(txtNomePaciente.getText());
+                paciente.setCpf(txtCpfPaciente.getText());
+                paciente.setRg(txtRgPaciente.getText());
+                paciente.setTelefone(txtNomeTelefonePaciente.getText());
+                paciente.setEndereco(txtNomeEnderecoPaciente.getText());
+                paciente.setEmail(txtEmailPaciente.getText());
+                paciente.setDataNascimento(txtDataNascimentoPaciente.getText());
+                paciente.setContatoEmergencia(txtContatoEmergenciaPaciente.getText());
+                paciente.setIdEndereco(Integer.parseInt(txtIdEnderecoPaciente.getText()));
+                paciente.setIdPlano(Integer.parseInt(txtIdPlanoPaciente.getText()));
+
+
+                pacienteDao.insert(paciente);
+
+                tablePaciente.getItems().setAll(pacienteDao.findAll());
+
+                lblStatusGlobal.setText("Status: Paciente cadastrado!");
+
+                txtPacienteId.clear();
+                txtNomePaciente.clear();
+                txtCpfPaciente.clear();
+                txtRgPaciente.clear();
+                txtNomeTelefonePaciente.clear();
+                txtNomeEnderecoPaciente.clear();
+                txtEmailPaciente.clear();
+                txtDataNascimentoPaciente.clear();
+                txtContatoEmergenciaPaciente.clear();
+                txtIdEnderecoPaciente.clear();
+                txtIdPlanoPaciente.clear();
+
+            } catch (Exception ex) {
+                lblStatusGlobal.setText("Erro: " + ex.getMessage());
+            }
+        });
+
+        btnEdit.setOnAction(e -> {
+            try{
+
+                Paciente paciente = new Paciente();
+
+                paciente.setIdPaciente(Integer.parseInt(txtPacienteId.getText()));
+                paciente.setNome(txtNomePaciente.getText());
+                paciente.setCpf(txtCpfPaciente.getText());
+                paciente.setRg(txtRgPaciente.getText());
+                paciente.setTelefone(txtNomeTelefonePaciente.getText());
+                paciente.setEndereco(txtNomeEnderecoPaciente.getText());
+                paciente.setEmail(txtEmailPaciente.getText());
+                paciente.setDataNascimento(txtDataNascimentoPaciente.getText());
+                paciente.setContatoEmergencia(txtContatoEmergenciaPaciente.getText());
+                paciente.setIdEndereco(Integer.parseInt(txtIdEnderecoPaciente.getText()));
+                paciente.setIdPlano(Integer.parseInt(txtIdPlanoPaciente.getText()));
+
+                pacienteDao.update(paciente);
+
+                tablePaciente.getItems().setAll(pacienteDao.findAll());
+
+                lblStatusGlobal.setText("Status: Paciente atualizado!");
+
+            } catch (Exception ex) {
+                lblStatusGlobal.setText("Erro: " + ex.getMessage());
+            }
+        });
+
+        btnDelete.setOnAction(e -> {
+            try {
+
+                pacienteDao.deleteById(Integer.parseInt(txtPacienteId.getText()));
+
+                tablePaciente.getItems().setAll(pacienteDao.findAll());
+
+                lblStatusGlobal.setText("Status: Paciente excluido!");
+
+                txtPacienteId.clear();
+                txtNomePaciente.clear();
+                txtCpfPaciente.clear();
+                txtRgPaciente.clear();
+                txtNomeTelefonePaciente.clear();
+                txtNomeEnderecoPaciente.clear();
+                txtEmailPaciente.clear();
+                txtDataNascimentoPaciente.clear();
+                txtContatoEmergenciaPaciente.clear();
+                txtIdEnderecoPaciente.clear();
+                txtIdPlanoPaciente.clear();
+
+
+            } catch ( Exception ex) {
+                lblStatusGlobal.setText("Erro: " + ex.getMessage());
+            }
+                });
+
         HBox botoes = new HBox(10, btnAdd, btnEdit, btnDelete);
 
         return new VBox(8,
@@ -331,10 +400,7 @@ public class Main extends Application {
                 new Label("ID Endereco"), txtIdEnderecoPaciente,
                 new Label("ID Plano"), txtIdPlanoPaciente,
 
-                botoes,
-                tablePaciente);
-
-
+                botoes, tablePaciente);
     }
 
     private VBox criarPainelUsuario() {
@@ -630,7 +696,10 @@ public class Main extends Application {
         tableConsulta.getItems().clear(); //limpa a tabela
         tableConsulta.getItems().addAll(consultas); //carrega de novo
 
-        //PACIENTE
+        List<Paciente> pacientes = pacienteDao.findAll();
+        tablePaciente.getItems().clear();
+        tablePaciente.getItems().addAll(pacientes);
+
 
         //USUARIO
 
@@ -650,7 +719,18 @@ public class Main extends Application {
         txtObservacoes.clear();
     }
 
-    private void limparCamposPaciente(){
+    private void imparCamplosPaciente(){
+        txtPacienteId.clear();
+        txtNomePaciente.clear();
+        txtCpfPaciente.clear();
+        txtRgPaciente.clear();
+        txtNomeTelefonePaciente.clear();
+        txtNomeEnderecoPaciente.clear();
+        txtEmailPaciente.clear();
+        txtDataNascimentoPaciente.clear();
+        txtContatoEmergenciaPaciente.clear();
+        txtIdEnderecoPaciente.clear();
+        txtIdPlanoPaciente.clear();
 
     }
 
